@@ -7,5 +7,10 @@ import { UFs } from './mock-ufs';
 export class UFService {
   getAll(): UF[] {
     return UFs;
+
+  }
+  GetUF(id:Number): UF{
+
+    return UF = 12;
   }
 }
