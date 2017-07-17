@@ -13,15 +13,39 @@ import {SamuService} from './services/samu.service'
   providers: [UFService,SamuService]
 })
 export class AppComponent implements OnInit {
-    title = 'UF';
-    ufs : UF[];
-    dados_da_samu : Dados[];
 
-    constructor(private ufService: UFService, private samuService: SamuService)
-    { }
+  title = 'UF';
+  ufs : UF[];
+  dados_da_samu : Dados[];
+  minha_uf: UF;
+  municipios_atendidos : Dados[] = [];
+  meu_id: number = 12;
+  media: number = 0;
+  constructor(private ufService: UFService, private samuService: SamuService)
+  { }
 
-    ngOnInit(): void {
-        this.ufs = this.ufService.getAll();
-        this.dados_da_samu = this.samuService.getAllMunicipiosAtendidosPorEstado();
+  ngOnInit(): void {
+    this.ufs = this.ufService.getAll();
+    this.dados_da_samu = this.samuService.getAllMunicipiosAtendidosPorEstado();
+    this.minha_uf = this.UF();
+    this.media = this.calcular();
+  }
+  UF(): UF {
+    for (let uf of this.ufs) {
+      if (uf.id == this.meu_id) return uf;
     }
+  }
+
+  calcular(): number {
+    var anos = 0;
+    var total = 0;
+    for (let mun of this.dados_da_samu){
+      if (mun.uf_id == this.meu_id){
+        anos++;
+        total+=mun.valor;
+        this.municipios_atendidos.push(mun);
+      }
+    }
+    return Math.round(anos/total);
+  }
 }
