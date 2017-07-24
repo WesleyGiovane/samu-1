@@ -47,6 +47,6 @@ export class AppComponent implements OnInit {
       }
     }
     return Math.round (total/this.municipios_atendidos.length) ;
-    
+
   }
 }
